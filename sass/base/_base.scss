@@ -1,0 +1,65 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  // Defines what 1rem is
+  font-size: 62.5%;
+  /* il transformam in font-size: 10px; pentru un calcul mai usor  */
+  // ------------------------------------------
+  // MEDIA QUERY EXEMPLU
+
+  //  Scriere standard pentru media query
+
+  // @media (max-width: 600px){
+  //   font-size: 50%;
+  // }
+
+  // ------------------------------------------
+
+  // A. Scriere defalcata cu mixin
+
+  // @include respond-phone {
+  //   font-size: 50%; /*  aici este @content */
+  // }
+
+  // ------------------------------------------
+
+  // B. Scriere comprimata cu mixin
+  // Atentie in acesata ordine de la mare catre mic desktop, ca se se suprascrie
+
+  @include respond(big-desktop) {
+    font-size: 75%; // 1rem=12px, 12/16 = 75%
+  }
+
+  @include respond(tab-land) {
+    font-size: 56.25%; //1rem=9px, 9/16= 50%
+  }
+
+  @include respond(tab-port) {
+    font-size: 50%; //1rem = 8px, 8/16 =50%
+  }
+
+  // pe acesta nu-l mai aplic ca are aceeasi valoare cu cel de tab-port
+  // @include respond(phone) {
+  //   font-size: 50%; /*  aici este @content */
+  // }
+}
+
+body {
+  box-sizing: border-box;
+  padding: 3rem;
+
+  @include respond(tab-port) {
+    padding: 0;
+  }
+}
+
+::selection {
+  background-color: $color-primary;
+  color: $color-white;
+}

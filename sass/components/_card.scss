@@ -1,0 +1,237 @@
+.card {
+  // FUNCTIONALITY
+  -moz-perspective: 150rem;
+  perspective: 150rem; /* ne da impresia de 3D, trebuie specificat un numar f mare sa arate ok */
+  position: relative;
+  height: 52rem; /* adaugam aceasta inaltime pe parinte pt ca copilul a primit position absolut si nu mai este in natural flow, acelasi lucru se intampla si la float, doar ca acolo exista clear fix */
+
+  &__side {
+    height: 52rem;
+    transition: all 0.8s ease;
+    position: absolute; /* pozitionam cele doua carduri unul peste altul */
+    top: 0;
+    left: 0;
+    width: 100%; /* daca nu adaug afiseaza doar with pt continutul textului */
+    backface-visibility: hidden; /* ascunde spatele elementului la rotire */
+    border-radius: 3px;
+    overflow: hidden; /* pt colturile rotunjite */
+    box-shadow: 0 1.5rem 4rem rgba($color-black, 0.15);
+
+    /* background pt front si back */
+    &--front {
+      background-color: $color-white;
+    }
+
+    &--back {
+      transform: rotateY(180deg);
+
+      &-1 {
+        background-image: linear-gradient(
+          to right bottom,
+          $color-secondary-light,
+          $color-secondary-dark
+        );
+      }
+
+      &-2 {
+        background-image: linear-gradient(
+          to right bottom,
+          $color-primary-light,
+          $color-primary-dark
+        );
+      }
+
+      &-3 {
+        background-image: linear-gradient(
+          to right bottom,
+          $color-tertiary-light,
+          $color-tertiary-dark
+        );
+      }
+    }
+  }
+
+  // .card:hover .card__side--fron { vor fi rotite}
+  &:hover &__side--front {
+    transform: rotateY(-180deg);
+  }
+
+  &:hover &__side--back {
+    transform: rotateY(0);
+  }
+
+  // FRONT SIDE STYLING
+  &__picture {
+    background-size: cover;
+    height: 23rem;
+    background-blend-mode: screen; /* cum se intrepatrund imaginile pentru background-image de mai jos, intre imagine si gradient  */
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+
+    &--1 {
+      background-image: linear-gradient(
+          to right bottom,
+          $color-secondary-light,
+          $color-secondary-dark
+        ),
+        url(../img/nat-5.jpg);
+    }
+
+    &--2 {
+      background-image: linear-gradient(
+          to right bottom,
+          $color-primary-light,
+          $color-primary-dark
+        ),
+        url(../img/nat-6.jpg);
+    }
+
+    &--3 {
+      background-image: linear-gradient(
+          to right bottom,
+          $color-tertiary-light,
+          $color-tertiary-dark
+        ),
+        url(../img/nat-7.jpg);
+    }
+  }
+
+  &__heading {
+    font-size: 2.8rem;
+    font-weight: 300;
+    text-transform: uppercase;
+    text-align: right;
+    color: $color-white;
+    position: absolute;
+    top: 12rem;
+    right: 2rem;
+    width: 75%;
+  }
+
+  &__heading-span {
+    padding: 1rem 1.5rem;
+
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone; /* permite ca daca textul daca se imparte pe 2 randuri sa arate ca si cum ar fi doua elemente separate, cu spatii la ambele capete */
+
+    &--1 {
+      background-image: linear-gradient(
+        to right bottom,
+        rgba($color-secondary-light, 0.85),
+        rgba($color-secondary-dark, 0.85)
+      );
+    }
+
+    &--2 {
+      background-image: linear-gradient(
+        to right bottom,
+        rgba($color-primary-light, 0.85),
+        rgba($color-primary-dark, 0.85)
+      );
+    }
+
+    &--3 {
+      background-image: linear-gradient(
+        to right bottom,
+        rgba($color-tertiary-light, 0.85),
+        rgba($color-tertiary-dark, 0.85)
+      );
+    }
+  }
+
+  &__details {
+    padding: 3rem;
+
+    ul {
+      list-style: none;
+      width: 80%;
+      margin: 0 auto; /* aliniere pe mijloc, bloc in bloc */
+
+      li {
+        text-align: center;
+        font-size: 1.5rem;
+        padding: 1rem;
+
+        &:not(:last-child) {
+          border-bottom: 1px solid $color-grey-light-2;
+        }
+      }
+    }
+  }
+
+  // BACK SIDE STYLING
+  &__cta {
+    position: absolute;
+    // top: 50%;
+    // left: 50%;
+    // transform: translate(-50%, -50%); se inlocuieste cu mixin
+    @include absCenter;
+    width: 90%; /* daca nu ii dam width butonul se va comprima pt a avea latimea textului */
+    text-align: center;
+  }
+
+  &__price-box {
+    text-align: center;
+    color: $color-white;
+    margin-bottom: 8rem;
+  }
+
+  &__price-only {
+    font-size: 1.4rem;
+    text-transform: uppercase;
+  }
+
+  &__price-value {
+    font-size: 6rem;
+    font-weight: 100;
+  }
+
+  // Media query - schimbare design
+  //@include respond(tab-port) { // il scoatem ca sa mai adaugam o conditie
+  // se va intampla ce e mai jos doar daca respecta max-width si daca se poate face click ( la dispozitivele mobile nu se poate face click)
+  @media only screen and (max-width: 56.25em), only screen and (hover: none) {
+    height: auto;
+    border-radius: 3px;
+    background-color: $color-white;
+    box-shadow: 0 1.5rem 4rem rgba($color-black, 0.15);
+
+    &__side {
+      height: auto;
+      position: relative;
+      box-shadow: none; /* mutam umbra de aici pe card */
+
+      &--back {
+        transform: rotateY(0); /* nu mai rotim */
+        clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+      }
+    }
+
+    &:hover &__side--front {
+      transform: rotateY(0); /* nu mai rotim */
+    }
+
+    &__details {
+      padding: 1rem 3rem;
+    }
+
+    // New Bottom
+    &__cta {
+      position: relative;
+      top: 0;
+      left: 0;
+      transform: translate(0);
+      width: 100%;
+      padding: 7rem 4rem 4rem 4rem;
+    }
+
+    &__price-box {
+      margin-bottom: 3rem;
+    }
+
+    &__price-value {
+      font-size: 4rem;
+    }
+  }
+}

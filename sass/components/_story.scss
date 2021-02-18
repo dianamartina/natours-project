@@ -1,0 +1,93 @@
+.story {
+  width: 75%;
+  margin: 0 auto;
+  box-shadow: 0 3rem 6rem rgba($color-black, 0.1);
+  background-color: rgba($color-white, 0.6);
+  border-radius: 3px;
+  padding: 6rem;
+  padding-left: 9rem;
+  font-size: $default-font-size;
+  transform: skewX(-12deg); /* inclinam componenta */
+
+  // Nu va merge pentru imagine pt ca mai avem un tranform pe imagine, asa ca adugam separat pe fiecare element
+  // & > * {
+  //   transform: skewX(12deg);
+  // }
+
+  @include respond(tab-port) {
+    width: 100%;
+    padding: 4rem;
+    padding-left: 7rem;
+  }
+
+  @include respond(phone) {
+    transform: skewX(0);
+  }
+
+  &__shape {
+    width: 15rem;
+    height: 15rem;
+    float: left; /* restul continutului va fi in jurul lui */
+    overflow: hidden;
+    border-radius: 50%;
+
+    // daca browserul suport clip-path executa codul, altfel sare peste el
+    @supports (-webkit-clip-path: circle(0 0)) or (clip-path: circle(0 0)) {
+      -webkit-clip-path: circle(50% at 50% 50%);
+      clip-path: circle(50% at 50% 50%); /* facem ca poza sa arate ca un cerc */
+
+      -webkit-shape-outside: circle(50% at 50% 50%);
+      shape-outside: circle(
+        50% at 50% 50%
+      ); /* creem un cerc in jurul caruia se va adapta textul, trebuie adaugat float, width si height*/
+
+      border-radius: none;
+    }
+
+    transform: translateX(-3rem) skew(12deg);
+    position: relative;
+
+    @include respond(phone) {
+      transform: translateX(-3rem) skewX(0);
+    }
+  }
+
+  &__img {
+    height: 100%; /* trebuie adaugata valoarea mai mica intre width si height, altfel taie elementul */
+    transform: translateX(-4rem) scale(1.4); /* muta un pic imaginea sa centreze persoana */
+    backface-visibility: hidden;
+    transition: all 0.5s;
+  }
+
+  &__text {
+    transform: skewX(12deg);
+
+    @include respond(phone) {
+      transform: skewX(0);
+    }
+  }
+
+  &__caption {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 20%);
+    color: $color-white;
+    font-size: 1.7rem;
+    text-transform: uppercase;
+    text-align: center;
+    opacity: 0;
+    backface-visibility: hidden; /* rezolva problema cu miscare animatiei */
+    transition: all 0.5s;
+  }
+
+  &:hover &__caption {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+
+  &:hover &__img {
+    transform: translateX(-4rem) scale(1);
+    filter: blur(3px) brightness(80%);
+  }
+}

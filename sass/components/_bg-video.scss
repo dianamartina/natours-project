@@ -1,0 +1,16 @@
+.bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  opacity: 0.15;
+  overflow: hidden; /* ascundem zonele care ies inafara */
+
+  &__content {
+    height: 100%;
+    width: 100%;
+    object-fit: cover; /* similar cu background-size:cover pt imagini, aici elementul va ocupa intreg spatiul pastrand aspect ratio, ce este in afara va fi taiat, exista si object-fir: fill ce va scala imaginea la spatiul disponibil*/
+  }
+}
